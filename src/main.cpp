@@ -1,8 +1,8 @@
 
 #include <iostream>
+#include "engine_lib.h"
 
 static bool running = true;
-
 
 //------------ Windows Platform ----------------
 #ifdef _WIN32
@@ -12,28 +12,27 @@ static bool running = true;
 
 static HWND window;
 //------------ Windows Platform Functions ----------------
-LRESULT CALLBACK  windows_window_callback(HWND window, UINT msg,WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK windows_window_callback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = 0;
 
 	switch (msg)
 	{
-		case WM_CLOSE:
-		{
-			running = false;
-			break;
-		}
+	case WM_CLOSE:
+	{
+		running = false;
+		break;
+	}
 
-		default:
-		{
-			result = DefWindowProcA(window, msg, wParam, lParam);
-		}
+	default:
+	{
+		result = DefWindowProcA(window, msg, wParam, lParam);
+	}
 	}
 
 	return result;
-
 }
-bool platform_create_window(int width, int height, char* title)
+bool platform_create_window(int width, int height, char *title)
 {
 	HINSTANCE instance = GetModuleHandleA(0);
 
@@ -42,7 +41,7 @@ bool platform_create_window(int width, int height, char* title)
 	wc.hIcon = LoadIcon(instance, IDI_APPLICATION);
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.lpszClassName = title;
-	wc.lpfnWndProc = windows_window_callback; 
+	wc.lpfnWndProc = windows_window_callback;
 
 	if (!RegisterClassA(&wc))
 	{
@@ -76,11 +75,15 @@ void platform_update_window()
 
 int main()
 {
-	platform_create_window(1200,720,"MyGame");
-	
+	platform_create_window(1200, 720, "MyGame");
+
 	while (running)
 	{
 		platform_update_window();
+
+		SM_TRACE("test");
+		SM_WARN("test");
+		SM_ERROR("test");
 	}
 
 	return 0;
